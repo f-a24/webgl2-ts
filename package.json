@@ -1,0 +1,27 @@
+{
+  "name": "webgl2-ts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "fmt": "prettier --write src/**/**/*.ts"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "devDependencies": {
+    "@types/dat.gui": "^0.7.7",
+    "prettier": "^2.7.1",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0",
+    "vite-plugin-glsl": "^0.4.0"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "gl-matrix": "^3.4.3"
+  }
+}

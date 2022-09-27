@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>【Chapter2】Rendering - WebGL2 + TS -</title>
+  </head>
+  <body>
+    <canvas id="webgl-canves" width="800" height="600">
+      Your browser does not support the HTML5 canves element.
+    </canvas>
+    <div id="info">
+      <table>
+        <tr>
+          <th>Buffer</th>
+          <th>Name</th>
+          <th>Size</th>
+          <th>Usage</th>
+        </tr>
+        <tr>
+          <td>VBO:</td>
+          <td id="t-vbo-name"></td>
+          <td id="t-vbo-size"></td>
+          <td id="t-vbo-usage"></td>
+        </tr>
+        <tr>
+          <td>IBO:</td>
+          <td id="t-ibo-name"></td>
+          <td id="t-ibo-size"></td>
+          <td id="t-ibo-usage"></td>
+        </tr>
+      </table>
+      <ul>
+        <li>Is vertices a VBO? <strong id="s-is-vertices-vbo"></strong></li>
+        <li>Is coneVertexBuffer a VBO? <strong id="s-is-cone-vertex-buffer-vbo"></strong></li>
+      </ul>
+    </div>
+    <script type="module" src="main.ts"></script>
+  </body>
+</html>
