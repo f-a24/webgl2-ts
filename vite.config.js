@@ -26,12 +26,37 @@ export default defineConfig({
           'state_machine',
           'index.html'
         ),
-		'chapter03/moving_light': resolve(
-			root,
-			'chapter03',
-			'moving_light',
-			'index.html'
-		  ),
+        'chapter03/moving_light': resolve(
+          root,
+          'chapter03',
+          'moving_light',
+          'index.html'
+        ),
+        'chapter03/goraud_phong': resolve(
+          root,
+          'chapter03',
+          'goraud_phong',
+          'index.html'
+        ),
+        'chapter03/sphere_phong': resolve(
+          root,
+          'chapter03',
+          'sphere_phong',
+          'index.html'
+        ),
+        'chapter03/wall': resolve(root, 'chapter03', 'wall', 'index.html'),
+        'chapter03/positional_lighting': resolve(
+          root,
+          'chapter03',
+          'positional_lighting',
+          'index.html'
+        ),
+        'chapter03/showroom': resolve(
+          root,
+          'chapter03',
+          'showroom',
+          'index.html'
+        ),
       },
     },
   },

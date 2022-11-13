@@ -69,6 +69,22 @@ export const getShader = (
 };
 
 /**
+ * 色を 0 ～ 255 から 0 ～ 1 に非正規化
+ * @param color RGBカラーコード配列
+ * @returns
+ */
+export const denormalizeColor = (color: RGBColor | RGBAColor) =>
+  color.map(c => c * 255) as typeof color;
+
+/**
+ * 色を 0 ～ 255 から 0 ～ 1 に正規化
+ * @param color RGBカラーコード配列
+ * @returns
+ */
+export const normalizeColor = (color: RGBColor | RGBAColor) =>
+  color.map(c => c / 255) as typeof color;
+
+/**
  * 指定された頂点の計算された法線を返す
  * 注: TRIANGLESのみで、インデックスは完全に定義する必要がある
  * @param vs 頂点
@@ -91,9 +107,9 @@ export const calculateNormals = (vs: number[], ind: number[]) => {
   // 計算する頂点のトライアドに取り組む
   for (let i = 0; i < ind.length; i += 3) {
     // 法線なのでi = i + 3(i = indices index)
-    const v1:number[] = [];
-    const v2:number[] = [];
-    const normal:number[] = [];
+    const v1: number[] = [];
+    const v2: number[] = [];
+    const normal: number[] = [];
 
     // p2 - p1
     v1[x] = vs[3 * ind[i + 2] + x] - vs[3 * ind[i + 1] + x];
@@ -141,3 +157,13 @@ export const calculateNormals = (vs: number[], ind: number[]) => {
 
   return ns;
 };
+
+/**
+ * RGBカラーコード配列
+ */
+export type RGBColor = [number, number, number];
+
+/**
+ * RGBAカラーコード配列
+ */
+export type RGBAColor = [number, number, number, number];

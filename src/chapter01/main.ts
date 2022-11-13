@@ -1,9 +1,9 @@
-import { getCanvas, getGLContext } from '../common/utils';
+import { getCanvas, getGLContext, RGBAColor } from '../common/utils';
 import './style.css';
 
 let gl: WebGL2RenderingContext;
 
-const updateClearColor = (...color: [number, number, number, number]) => {
+const updateClearColor = (...color: RGBAColor) => {
   gl.clearColor(...color);
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.viewport(0, 0, 0, 0);

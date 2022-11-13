@@ -6,6 +6,7 @@ import {
   getGLContext,
   getShader,
   normalizeColor,
+  RGBAColor,
   RGBColor,
 } from '../../common/utils';
 import vertex from './vert.glsl';
@@ -17,21 +18,29 @@ import { mat4 } from 'gl-matrix';
 // アプリケーション全体を通じて利用されるグローバル変数
 let gl: WebGL2RenderingContext;
 let program: WebGLProgram | null;
-let indices: number[];
-let sphereVAO: WebGLVertexArrayObject | null;
-let sphereIndicesBuffer: WebGLBuffer | null;
-let lastTime = 0;
-let angle = 0;
-let lightDiffuseColor: RGBColor = [1, 1, 1];
-let sphereColor: RGBColor = [0.5, 0.8, 0.1];
 let modelViewMatrix = mat4.create();
 let projectionMatrix = mat4.create();
 let normalMatrix = mat4.create();
+let sphereVAO: WebGLVertexArrayObject | null;
+let indices: number[];
+let sphereIndicesBuffer: WebGLBuffer | null;
+let lastTime = 0;
+// trueに設定すると、TRIANGLESの代わりにLINESを描画プリミティブに使用
+let wireframe = false;
+let angle = 0;
+let shininess = 10;
+let clearColor: RGBColor = [0.9, 0.9, 0.9];
+let lightColor: RGBAColor = [1, 1, 1, 1];
+let lightAmbient = [0.03, 0.03, 0.03, 1];
+let lightSpecular = [1, 1, 1, 1];
+let materialDiffuse: RGBAColor = [46 / 256, 99 / 256, 191 / 256, 1];
+let materialAmbient = [1, 1, 1, 1];
+let materialSpecular = [1, 1, 1, 1];
 
 const controls = {
-  'Translate X': 0,
-  'Translate Y': -1,
-  'Translate Z': -1,
+  'Translate X': -0.25,
+  'Translate Y': -0.25,
+  'Translate Z': -0.25,
 };
 
 interface WebGLProgram {
@@ -40,8 +49,13 @@ interface WebGLProgram {
   uProjectionMatrix?: WebGLUniformLocation | null;
   uModelViewMatrix?: WebGLUniformLocation | null;
   uNormalMatrix?: WebGLUniformLocation | null;
+  uMaterialAmbient?: WebGLUniformLocation | null;
   uMaterialDiffuse?: WebGLUniformLocation | null;
+  uMaterialSpecular?: WebGLUniformLocation | null;
+  uShininess?: WebGLUniformLocation | null;
+  uLightAmbient?: WebGLUniformLocation | null;
   uLightDiffuse?: WebGLUniformLocation | null;
+  uLightSpecular?: WebGLUniformLocation | null;
   uLightDirection?: WebGLUniformLocation | null;
 }
 
@@ -60,8 +74,10 @@ const initProgram = () => {
   const _gl = getGLContext(canvas);
   if (!_gl) return;
   gl = _gl;
-  gl.clearColor(0.9, 0.9, 0.9, 1);
+  gl.clearColor(...clearColor, 1);
+  gl.clearDepth(100);
   gl.enable(gl.DEPTH_TEST);
+  gl.depthFunc(gl.LEQUAL);
 
   // シェーダーを取得
   const vertexShader = getShader(gl, vertex.trim(), 'vertex');
@@ -94,19 +110,35 @@ const initProgram = () => {
   );
   program.uModelViewMatrix = gl.getUniformLocation(program, 'uModelViewMatrix');
   program.uNormalMatrix = gl.getUniformLocation(program, 'uNormalMatrix');
+  program.uMaterialAmbient = gl.getUniformLocation(program, 'uMaterialAmbient');
   program.uMaterialDiffuse = gl.getUniformLocation(program, 'uMaterialDiffuse');
+  program.uMaterialSpecular = gl.getUniformLocation(
+    program,
+    'uMaterialSpecular'
+  );
+  program.uShininess = gl.getUniformLocation(program, 'uShininess');
+  program.uLightAmbient = gl.getUniformLocation(program, 'uLightAmbient');
   program.uLightDiffuse = gl.getUniformLocation(program, 'uLightDiffuse');
+  program.uLightSpecular = gl.getUniformLocation(program, 'uLightSpecular');
   program.uLightDirection = gl.getUniformLocation(program, 'uLightDirection');
 };
 
 const initLights = () => {
   if (program) {
+    if (program.uLightDiffuse) gl.uniform4fv(program.uLightDiffuse, lightColor);
+    if (program.uLightAmbient)
+      gl.uniform4fv(program.uLightAmbient, lightAmbient);
+    if (program.uLightSpecular)
+      gl.uniform4fv(program.uLightSpecular, lightSpecular);
     if (program.uLightDirection)
       gl.uniform3fv(program.uLightDirection, Object.values(controls));
-    if (program.uLightDiffuse)
-      gl.uniform3fv(program.uLightDiffuse, lightDiffuseColor);
     if (program.uMaterialDiffuse)
-      gl.uniform3fv(program.uMaterialDiffuse, sphereColor);
+      gl.uniform4fv(program.uMaterialDiffuse, materialDiffuse);
+    if (program.uMaterialAmbient)
+      gl.uniform4fv(program.uMaterialAmbient, materialAmbient);
+    if (program.uMaterialSpecular)
+      gl.uniform4fv(program.uMaterialSpecular, materialSpecular);
+    if (program.uShininess) gl.uniform1f(program.uShininess, shininess);
   }
 };
 
@@ -923,8 +955,12 @@ const draw = () => {
     // IBOをバインド
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphereIndicesBuffer);
 
+    // wireframeがtrueの場合は、LINESを使用して描画
+    const type = wireframe ? gl.LINES : gl.TRIANGLES;
+
     // シーンを描画
-    gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(type, indices.length, gl.UNSIGNED_SHORT, 0);
+
     // クリア
     gl.bindVertexArray(null);
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -967,22 +1003,31 @@ const init = () => {
 const initControls = () => {
   const gui = new GUI();
   gui
-    .addColor({ 'Sphere Color': denormalizeColor(sphereColor) }, 'Sphere Color')
-    .onChange(
-      v =>
-        program?.uMaterialDiffuse &&
-        gl.uniform3fv(program.uMaterialDiffuse, normalizeColor(v))
-    );
-  gui
-    .addColor(
-      { 'Light Diffuse Color': denormalizeColor(lightDiffuseColor) },
-      'Light Diffuse Color'
-    )
+    .addColor({ 'Light Color': denormalizeColor(lightColor) }, 'Light Color')
     .onChange(
       v =>
         program?.uLightDiffuse &&
-        gl.uniform3fv(program.uLightDiffuse, normalizeColor(v))
+        gl.uniform4fv(program.uLightDiffuse, normalizeColor(v))
     );
+  gui
+    .add({ 'Light Ambient Term': lightAmbient[0] }, 'Light Ambient Term', 0, 1)
+    .step(0.01)
+    .onChange(v => {
+      program?.uLightAmbient &&
+        gl.uniform4fv(program.uLightAmbient, [v, v, v, 1]);
+    });
+  gui
+    .add(
+      { 'Light Specular Term': lightSpecular[0] },
+      'Light Specular Term',
+      0,
+      1
+    )
+    .step(0.01)
+    .onChange(v => {
+      program?.uLightSpecular &&
+        gl.uniform4fv(program.uLightSpecular, [v, v, v, 1]);
+    });
   Object.keys(controls).forEach(key => {
     gui
       .add(controls, key, -10, 10)
@@ -996,6 +1041,52 @@ const initControls = () => {
           ]);
         }
       });
+  });
+  gui
+    .addColor(
+      { 'Sphere Color': denormalizeColor(materialDiffuse) },
+      'Sphere Color'
+    )
+    .onChange(
+      v =>
+        program?.uMaterialDiffuse &&
+        gl.uniform4fv(program.uMaterialDiffuse, normalizeColor(v))
+    );
+  gui
+    .add(
+      { 'Material Ambient Term': materialAmbient[0] },
+      'Material Ambient Term',
+      0,
+      1
+    )
+    .step(0.01)
+    .onChange(v => {
+      program?.uMaterialAmbient &&
+        gl.uniform4fv(program.uMaterialAmbient, [v, v, v, 1]);
+    });
+  gui
+    .add(
+      { 'Material Specular Term': materialSpecular[0] },
+      'Material Specular Term',
+      0,
+      1
+    )
+    .step(0.01)
+    .onChange(v => {
+      program?.uMaterialSpecular &&
+        gl.uniform4fv(program.uMaterialSpecular, [v, v, v, 1]);
+    });
+  gui
+    .add({ Shininess: shininess }, 'Shininess', 0, 50)
+    .step(0.1)
+    .onChange(v => {
+      program?.uShininess && gl.uniform1f(program.uShininess, v);
+    });
+  gui
+    .addColor({ Background: denormalizeColor(clearColor) }, 'Background')
+    .onChange(v => gl.clearColor(...(normalizeColor(v) as RGBColor), 1));
+  gui.add({ Wireframe: wireframe }, 'Wireframe').onChange(v => {
+    wireframe = v;
   });
 };
 
