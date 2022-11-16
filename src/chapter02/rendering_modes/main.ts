@@ -7,7 +7,7 @@ import {
 import vertex from './vert.glsl';
 import fragment from './frag.glsl';
 import './style.css';
-import { GUI } from 'dat.gui';
+import { GUI } from 'lil-gui';
 
 // アプリケーション全体を通じて利用されるグローバル変数
 let gl: WebGL2RenderingContext;

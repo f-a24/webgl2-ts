@@ -11,7 +11,7 @@ import {
 import vertex from './vert.glsl';
 import fragment from './frag.glsl';
 import './style.css';
-import { GUI } from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { mat4 } from 'gl-matrix';
 
 // アプリケーション全体を通じて利用されるグローバル変数
@@ -967,19 +967,24 @@ const init = () => {
 const initControls = () => {
   const gui = new GUI();
   gui
-    .addColor({ 'Sphere Color': denormalizeColor(sphereColor) }, 'Sphere Color')
+    .addColor(
+      { 'Sphere Color': denormalizeColor(sphereColor) },
+      'Sphere Color',
+      255
+    )
     .onChange(
-      v =>
+      (v: RGBColor) =>
         program?.uMaterialDiffuse &&
         gl.uniform3fv(program.uMaterialDiffuse, normalizeColor(v))
     );
   gui
     .addColor(
       { 'Light Diffuse Color': denormalizeColor(lightDiffuseColor) },
-      'Light Diffuse Color'
+      'Light Diffuse Color',
+      255
     )
     .onChange(
-      v =>
+      (v: RGBColor) =>
         program?.uLightDiffuse &&
         gl.uniform3fv(program.uLightDiffuse, normalizeColor(v))
     );

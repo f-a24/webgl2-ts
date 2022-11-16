@@ -10,7 +10,7 @@ import {
 import vertex from './vert.glsl';
 import fragment from './frag.glsl';
 import './style.css';
-import { GUI } from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { mat4 } from 'gl-matrix';
 import { Program } from '../../common/Program';
 
@@ -267,24 +267,26 @@ const init = () => {
 
 const initControls = () => {
   const gui = new GUI();
-  gui.addColor({ 'Car Color': [255, 255, 255] }, 'Car Color').onChange(v => {
-    const [r, g, b] = normalizeColor(v);
-    gl.uniform3f(program.uniforms.uMaterialDiffuse, r, g, b);
-  });
   gui
-    .addColor({ Background: denormalizeColor(clearColor) }, 'Background')
-    .onChange(v => {
+    .addColor({ 'Car Color': [255, 255, 255] }, 'Car Color', 255)
+    .onChange((v: RGBColor) => {
+      const [r, g, b] = normalizeColor(v);
+      gl.uniform3f(program.uniforms.uMaterialDiffuse, r, g, b);
+    });
+  gui
+    .addColor({ Background: denormalizeColor(clearColor) }, 'Background', 255)
+    .onChange((v: RGBColor) => {
       const [r, g, b] = normalizeColor(v);
       gl.clearColor(r, g, b, 1);
     });
   gui
     .add({ Shininess: shininess }, 'Shininess', 1, 50)
     .step(0.1)
-    .onChange(v => gl.uniform1f(program.uniforms.uShininess, v));
+    .onChange((v: number) => gl.uniform1f(program.uniforms.uShininess, v));
   gui
     .add({ Distance: distance }, 'Distance', -600, -80)
     .step(1)
-    .onChange(v => (distance = v));
+    .onChange((v: number) => (distance = v));
   Object.keys(controls).forEach(key => {
     gui
       .add(controls, key, -1000, 1000)

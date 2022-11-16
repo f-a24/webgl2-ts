@@ -5,11 +5,12 @@ import {
   getGLContext,
   getShader,
   normalizeColor,
+  RGBColor,
 } from '../../common/utils';
 import vertex from './vert.glsl';
 import fragment from './frag.glsl';
 import './style.css';
-import { GUI } from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { mat4 } from 'gl-matrix';
 
 // アプリケーション全体を通じて利用されるグローバル変数
@@ -353,18 +354,24 @@ const init = () => {
 
 const initControls = () => {
   const gui = new GUI();
-  gui.addColor({ 'Sphere Color': [0, 255, 0] }, 'Sphere Color').onChange(v => {
-    const sphere = getObject('sphere');
-    if (sphere) sphere.diffuse = [...normalizeColor(v), 1.0];
-  });
-  gui.addColor({ 'Cone  Color': [235, 0, 210] }, 'Cone  Color').onChange(v => {
-    const cone = getObject('cone');
-    if (cone) cone.diffuse = [...normalizeColor(v), 1.0];
-  });
+  gui
+    .addColor({ 'Sphere Color': [0, 255, 0] }, 'Sphere Color', 255)
+    .onChange((v: RGBColor) => {
+      const sphere = getObject('sphere');
+      if (sphere) sphere.diffuse = [...normalizeColor(v), 1.0];
+    });
+  gui
+    .addColor({ 'Cone  Color': [235, 0, 210] }, 'Cone  Color', 255)
+    .onChange((v: RGBColor) => {
+      const cone = getObject('cone');
+      if (cone) cone.diffuse = [...normalizeColor(v), 1.0];
+    });
   gui
     .add({ Shininess: shininess }, 'Shininess', 1, 50)
     .step(0.1)
-    .onChange(v => program?.uShininess && gl.uniform1f(program?.uShininess, v));
+    .onChange(
+      (v: number) => program?.uShininess && gl.uniform1f(program?.uShininess, v)
+    );
   Object.keys(controls).forEach(key => {
     gui
       .add(controls, key, -50, 50)
@@ -382,7 +389,7 @@ const initControls = () => {
   gui
     .add({ Distance: distance }, 'Distance', -200, -50)
     .step(0.1)
-    .onChange(v => (distance = v));
+    .onChange((v: number) => (distance = v));
 };
 
 init();

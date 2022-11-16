@@ -12,7 +12,7 @@ import {
 import vertex from './vert.glsl';
 import fragment from './frag.glsl';
 import './style.css';
-import { GUI } from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { mat4 } from 'gl-matrix';
 
 // アプリケーション全体を通じて利用されるグローバル変数
@@ -1003,16 +1003,20 @@ const init = () => {
 const initControls = () => {
   const gui = new GUI();
   gui
-    .addColor({ 'Light Color': denormalizeColor(lightColor) }, 'Light Color')
+    .addColor(
+      { 'Light Color': denormalizeColor(lightColor) },
+      'Light Color',
+      255
+    )
     .onChange(
-      v =>
+      (v: RGBColor) =>
         program?.uLightDiffuse &&
         gl.uniform4fv(program.uLightDiffuse, normalizeColor(v))
     );
   gui
     .add({ 'Light Ambient Term': lightAmbient[0] }, 'Light Ambient Term', 0, 1)
     .step(0.01)
-    .onChange(v => {
+    .onChange((v: number) => {
       program?.uLightAmbient &&
         gl.uniform4fv(program.uLightAmbient, [v, v, v, 1]);
     });
@@ -1024,7 +1028,7 @@ const initControls = () => {
       1
     )
     .step(0.01)
-    .onChange(v => {
+    .onChange((v: number) => {
       program?.uLightSpecular &&
         gl.uniform4fv(program.uLightSpecular, [v, v, v, 1]);
     });
@@ -1045,10 +1049,11 @@ const initControls = () => {
   gui
     .addColor(
       { 'Sphere Color': denormalizeColor(materialDiffuse) },
-      'Sphere Color'
+      'Sphere Color',
+      255
     )
     .onChange(
-      v =>
+      (v: RGBColor) =>
         program?.uMaterialDiffuse &&
         gl.uniform4fv(program.uMaterialDiffuse, normalizeColor(v))
     );
@@ -1060,7 +1065,7 @@ const initControls = () => {
       1
     )
     .step(0.01)
-    .onChange(v => {
+    .onChange((v: number) => {
       program?.uMaterialAmbient &&
         gl.uniform4fv(program.uMaterialAmbient, [v, v, v, 1]);
     });
@@ -1072,20 +1077,22 @@ const initControls = () => {
       1
     )
     .step(0.01)
-    .onChange(v => {
+    .onChange((v: number) => {
       program?.uMaterialSpecular &&
         gl.uniform4fv(program.uMaterialSpecular, [v, v, v, 1]);
     });
   gui
     .add({ Shininess: shininess }, 'Shininess', 0, 50)
     .step(0.1)
-    .onChange(v => {
+    .onChange((v: number) => {
       program?.uShininess && gl.uniform1f(program.uShininess, v);
     });
   gui
-    .addColor({ Background: denormalizeColor(clearColor) }, 'Background')
-    .onChange(v => gl.clearColor(...(normalizeColor(v) as RGBColor), 1));
-  gui.add({ Wireframe: wireframe }, 'Wireframe').onChange(v => {
+    .addColor({ Background: denormalizeColor(clearColor) }, 'Background', 255)
+    .onChange((v: RGBColor) =>
+      gl.clearColor(...(normalizeColor(v) as RGBColor), 1)
+    );
+  gui.add({ Wireframe: wireframe }, 'Wireframe').onChange((v: boolean) => {
     wireframe = v;
   });
 };
