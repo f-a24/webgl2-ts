@@ -69,7 +69,7 @@ export default defineConfig({
           'camera_types',
           'index.html'
         ),
-        'chapter04/camera_types': resolve(
+        'chapter04/projection_modes': resolve(
           root,
           'chapter04',
           'projection_modes',

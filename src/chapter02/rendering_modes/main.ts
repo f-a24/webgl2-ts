@@ -25,7 +25,7 @@ const renderingModes = [
   'TRIANGLE_FAN',
 ] as const;
 const controls: {
-  'Rendering Mode': typeof renderingModes[number];
+  'Rendering Mode': (typeof renderingModes)[number];
 } = {
   'Rendering Mode': 'TRIANGLES',
 };

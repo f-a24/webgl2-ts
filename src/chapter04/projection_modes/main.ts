@@ -220,7 +220,7 @@ const initControls = () => {
   const gui = new GUI();
   gui
     .add({ 'Camera Type': cameraTypes[0] }, 'Camera Type', cameraTypes)
-    .onChange((v: typeof cameraTypes[number]) => {
+    .onChange((v: (typeof cameraTypes)[number]) => {
       camera.goHome();
       camera.setType(v);
     });

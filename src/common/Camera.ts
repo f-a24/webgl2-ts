@@ -19,9 +19,9 @@ export class Camera {
   fov: number;
   minZ: number;
   maxZ: number;
-  type: typeof cameraTypes[number] = 'ORBITING_TYPE';
+  type: (typeof cameraTypes)[number] = 'ORBITING_TYPE';
 
-  constructor(type: typeof cameraTypes[number] = 'ORBITING_TYPE') {
+  constructor(type: (typeof cameraTypes)[number] = 'ORBITING_TYPE') {
     this.position = vec3.create();
     this.focus = vec3.create();
     this.home = vec3.create();
@@ -62,7 +62,7 @@ export class Camera {
    * カメラの種類を変更する
    * @param type カメラの種類
    */
-  setType(type: typeof cameraTypes[number]) {
+  setType(type: (typeof cameraTypes)[number]) {
     if (!cameraTypes.includes(type)) {
       console.error(`Camera type (${type}) not supported`);
       return;
