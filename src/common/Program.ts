@@ -39,19 +39,28 @@ export class Program {
     this.useProgram();
   }
 
-  // 現在のプログラムで使用するためのWebGLコンテキスト
+  /**
+   * 現在のプログラムで使用するためのWebGLコンテキスト
+   */
   useProgram() {
     this.gl.useProgram(this.program);
   }
 
-  // 与えられた値から与えられたアトリビュートとユニフォームを読み込む
+  /**
+   * 与えられた値から与えられたアトリビュートとユニフォームを読み込む
+   * @param attributes アトリビュート
+   * @param uniforms ユニフォーム
+   */
   load(attributes: string[], uniforms: string[]) {
     this.useProgram();
     this.setAttributeLocations(attributes);
     this.setUniformLocations(uniforms);
   }
 
-  // プログラムインスタンスにユニフォームの参照を設定
+  /**
+   * プログラムインスタンスにアトリビュートの参照を設定
+   * @param attributes アトリビュート
+   */
   setAttributeLocations(attributes: string[]) {
     attributes.forEach(attribute => {
       if (this.program)
@@ -62,7 +71,10 @@ export class Program {
     });
   }
 
-  // プログラムインスタンスにユニフォームの参照を設定
+  /**
+   * プログラムインスタンスにユニフォームの参照を設定
+   * @param uniforms ユニフォーム
+   */
   setUniformLocations(uniforms: string[]) {
     uniforms.forEach(uniform => {
       if (this.program) {
@@ -75,7 +87,11 @@ export class Program {
     });
   }
 
-  // プログラムからユニフォームのロケーションを取得
+  /**
+   * プログラムからユニフォームのロケーションを取得
+   * @param uniformLocation ユニフォームのロケーション名
+   * @returns ロケーション
+   */
   getUniform(uniformLocation: WebGLUniformLocation) {
     if (this.program) return this.gl.getUniform(this.program, uniformLocation);
   }

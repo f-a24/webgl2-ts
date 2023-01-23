@@ -57,6 +57,24 @@ export default defineConfig({
           'showroom',
           'index.html'
         ),
+        'chapter04/model_view': resolve(
+          root,
+          'chapter04',
+          'model_view',
+          'index.html'
+        ),
+        'chapter04/camera_types': resolve(
+          root,
+          'chapter04',
+          'camera_types',
+          'index.html'
+        ),
+        'chapter04/camera_types': resolve(
+          root,
+          'chapter04',
+          'projection_modes',
+          'index.html'
+        ),
       },
     },
   },

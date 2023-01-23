@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>【Chapter4】Camera - WebGL2 + TS -</title>
+  </head>
+  <body>
+    <canvas id="webgl-canves" width="800" height="600">
+      Your browser does not support the HTML5 canves element.
+    </canvas>
+    <div id="info">
+      <p>Camera Matrix</p>
+      <table id="matrix">
+        <tr>
+          <td id="m0"></td>
+          <td id="m4"></td>
+          <td id="m8"></td>
+          <td id="m12"></td>
+        </tr>
+        <tr>
+          <td id="m1"></td>
+          <td id="m5"></td>
+          <td id="m9"></td>
+          <td id="m13"></td>
+        </tr>
+        <tr>
+          <td id="m2"></td>
+          <td id="m6"></td>
+          <td id="m10"></td>
+          <td id="m14"></td>
+        </tr>
+        <tr>
+          <td id="m3"></td>
+          <td id="m7"></td>
+          <td id="m11"></td>
+          <td id="m15"></td>
+        </tr>
+      </table>
+    </div>
+    <script type="module" src="main.ts"></script>
+  </body>
+</html>
