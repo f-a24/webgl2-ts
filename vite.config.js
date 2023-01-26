@@ -75,6 +75,24 @@ export default defineConfig({
           'projection_modes',
           'index.html'
         ),
+        'chapter05/simple_animation': resolve(
+          root,
+          'chapter04',
+          'simple_animation',
+          'index.html'
+        ),
+        'chapter05/bouncing_balls': resolve(
+          root,
+          'chapter04',
+          'bouncing_balls',
+          'index.html'
+        ),
+        'chapter05/interpolation': resolve(
+          root,
+          'chapter04',
+          'interpolation',
+          'index.html'
+        ),
       },
     },
   },
