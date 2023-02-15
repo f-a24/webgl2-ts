@@ -23,9 +23,12 @@ export type Object = (Axis | Floor) &
     textureCoords: number[];
     image: string;
     texture: Texture;
+    hidden: boolean;
   }>;
 
-// 3Dシーンをオブジェクトで管理
+/**
+ * 3Dシーンをオブジェクトで管理
+ */
 export class Scene {
   gl: WebGL2RenderingContext;
   program: Program;

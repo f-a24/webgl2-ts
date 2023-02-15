@@ -77,20 +77,62 @@ export default defineConfig({
         ),
         'chapter05/simple_animation': resolve(
           root,
-          'chapter04',
+          'chapter05',
           'simple_animation',
           'index.html'
         ),
         'chapter05/bouncing_balls': resolve(
           root,
-          'chapter04',
+          'chapter05',
           'bouncing_balls',
           'index.html'
         ),
         'chapter05/interpolation': resolve(
           root,
-          'chapter04',
+          'chapter05',
           'interpolation',
+          'index.html'
+        ),
+        'chapter06/cube': resolve(
+          root,
+          'chapter06',
+          'cube',
+          'index.html'
+        ),
+        'chapter06/wall': resolve(
+          root,
+          'chapter06',
+          'wall',
+          'index.html'
+        ),
+        'chapter06/wall_light_arrays': resolve(
+          root,
+          'chapter06',
+          'wall_light_arrays',
+          'index.html'
+        ),
+        'chapter06/wall_spot_light': resolve(
+          root,
+          'chapter06',
+          'wall_spot_light',
+          'index.html'
+        ),
+        'chapter06/blending': resolve(
+          root,
+          'chapter06',
+          'blending',
+          'index.html'
+        ),
+        'chapter06/culling': resolve(
+          root,
+          'chapter06',
+          'culling',
+          'index.html'
+        ),
+        'chapter06/transparency': resolve(
+          root,
+          'chapter06',
+          'transparency',
           'index.html'
         ),
       },
