@@ -135,6 +135,36 @@ export default defineConfig({
           'transparency',
           'index.html'
         ),
+        'chapter07/textured_cube': resolve(
+          root,
+          'chapter07',
+          'textured_cube',
+          'index.html'
+        ),
+        'chapter07/textured_filters': resolve(
+          root,
+          'chapter07',
+          'textured_filters',
+          'index.html'
+        ),
+        'chapter07/textured_wrapping': resolve(
+          root,
+          'chapter07',
+          'textured_wrapping',
+          'index.html'
+        ),
+        'chapter07/multi_texture': resolve(
+          root,
+          'chapter07',
+          'multi_texture',
+          'index.html'
+        ),
+        'chapter07/cubemap': resolve(
+          root,
+          'chapter07',
+          'cubemap',
+          'index.html'
+        ),
       },
     },
   },

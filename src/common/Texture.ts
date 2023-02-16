@@ -6,11 +6,12 @@ export class Texture {
   glTexture: WebGLTexture | null;
   image: HTMLImageElement;
 
-  constructor(gl: WebGL2RenderingContext, source: string) {
+  constructor(gl: WebGL2RenderingContext, source?: string) {
     this.gl = gl;
     this.glTexture = gl.createTexture();
 
     this.image = new Image();
+    this.image.crossOrigin = 'Anonymous';
     this.image.onload = () => this.handleLoadedTexture();
 
     if (source) this.setImage(source);
