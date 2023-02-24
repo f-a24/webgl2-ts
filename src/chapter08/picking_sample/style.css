@@ -1,0 +1,9 @@
+* {
+  margin: 0px;
+}
+body {
+  overflow: hidden;
+}
+.dg .property-name {
+  white-space: nowrap;
+}

@@ -165,6 +165,18 @@ export default defineConfig({
           'cubemap',
           'index.html'
         ),
+        'chapter08/picking_sample': resolve(
+          root,
+          'chapter08',
+          'picking_sample',
+          'index.html'
+        ),
+        'chapter08/picking': resolve(
+          root,
+          'chapter08',
+          'picking',
+          'index.html'
+        ),
       },
     },
   },

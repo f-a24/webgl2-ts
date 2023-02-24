@@ -1,4 +1,5 @@
-import { Object, Scene } from './Scene';
+import { Scene } from './Scene';
+import type { Object } from './Scene';
 
 /**
  * HTML5 canvasでの簡単なマウスピッキング実装
@@ -21,7 +22,7 @@ export class Picker {
     canvas: HTMLCanvasElement,
     gl: WebGL2RenderingContext,
     scene: Scene,
-    callbacks: Function
+    callbacks: { [name: string]: Function }
   ) {
     this.pickedList = [];
     this.canvas = canvas;

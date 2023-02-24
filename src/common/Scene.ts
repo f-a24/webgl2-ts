@@ -1,3 +1,4 @@
+import { vec3 } from 'gl-matrix';
 import { Axis } from './Axis';
 import { Floor } from './Floor';
 import { Program } from './Program';
@@ -24,6 +25,10 @@ export type Object = (Axis | Floor) &
     image: string;
     texture: Texture;
     hidden: boolean;
+    previous: number[];
+    position: vec3;
+    scale: vec3;
+    pickingColor: number[];
   }>;
 
 /**
