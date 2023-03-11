@@ -1089,9 +1089,7 @@ const initControls = () => {
     });
   gui
     .addColor({ Background: denormalizeColor(clearColor) }, 'Background', 255)
-    .onChange((v: RGBColor) =>
-      gl.clearColor(...(normalizeColor(v) as RGBColor), 1)
-    );
+    .onChange((v: RGBColor) => gl.clearColor(...normalizeColor(v), 1));
   gui.add({ Wireframe: wireframe }, 'Wireframe').onChange((v: boolean) => {
     wireframe = v;
   });

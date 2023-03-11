@@ -177,6 +177,12 @@ export default defineConfig({
           'picking',
           'index.html'
         ),
+        'chapter09/showroom': resolve(
+          root,
+          'chapter09',
+          'showroom',
+          'index.html'
+        ),
       },
     },
   },

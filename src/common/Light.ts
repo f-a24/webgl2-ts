@@ -7,7 +7,7 @@ export class Light {
   id: string;
   position: vec3;
   ambient: number[];
-  diffuse: vec4;
+  diffuse: vec4 | vec3;
   specular: number[];
   [property: string]: unknown;
 
@@ -26,7 +26,7 @@ export class Light {
     this.position = position;
   }
 
-  setDiffuse(diffuse: vec4) {
+  setDiffuse(diffuse: vec4 | vec3) {
     this.diffuse = diffuse;
   }
 

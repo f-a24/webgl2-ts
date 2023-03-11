@@ -75,7 +75,7 @@ export const getShader = (
  * @param color RGBカラーコード配列
  * @returns
  */
-export const denormalizeColor = (color: RGBColor | RGBAColor) =>
+export const denormalizeColor = <T extends RGBColor | RGBAColor>(color: T) =>
   color.map(c => c * 255) as typeof color;
 
 /**
@@ -83,7 +83,7 @@ export const denormalizeColor = (color: RGBColor | RGBAColor) =>
  * @param color RGBカラーコード配列
  * @returns
  */
-export const normalizeColor = (color: RGBColor | RGBAColor) =>
+export const normalizeColor = <T extends RGBColor | RGBAColor>(color: T) =>
   color.map(c => c / 255) as typeof color;
 
 /**

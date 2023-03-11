@@ -14,6 +14,7 @@ export type Object = (Axis | Floor) &
     specular: number[];
     Ks: number[];
     specularExponent: number;
+    Ni: number;
     Ns: number;
     d: number;
     transparency: number;
@@ -29,6 +30,7 @@ export type Object = (Axis | Floor) &
     position: vec3;
     scale: vec3;
     pickingColor: number[];
+    visible: boolean;
   }>;
 
 /**
