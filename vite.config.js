@@ -183,6 +183,30 @@ export default defineConfig({
           'showroom',
           'index.html'
         ),
+        'chapter10/post_process': resolve(
+          root,
+          'chapter10',
+          'post_process',
+          'index.html'
+        ),
+        'chapter10/point_sprites': resolve(
+          root,
+          'chapter10',
+          'point_sprites',
+          'index.html'
+        ),
+        'chapter10/normal_map': resolve(
+          root,
+          'chapter10',
+          'normal_map',
+          'index.html'
+        ),
+        'chapter10/ray_tracing': resolve(
+          root,
+          'chapter10',
+          'ray_tracing',
+          'index.html'
+        ),
       },
     },
   },
