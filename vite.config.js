@@ -8,6 +8,7 @@ export default defineConfig({
   root,
   publicDir: resolve(__dirname, 'public'),
   plugins: [glsl()],
+  base: '/webgl2-ts/',
   build: {
     outDir: resolve(__dirname, 'docs'),
     rollupOptions: {
