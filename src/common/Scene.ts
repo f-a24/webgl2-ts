@@ -66,6 +66,12 @@ export class Scene {
     try {
       const res = await fetch(filename);
       const object = await res.json();
+
+      // ※元リポジトリからデータを参照しているためパスの修正
+      if (filename.includes('cube-texture.json'))
+        object.image =
+          'https://raw.githubusercontent.com/oreilly-japan/real-time-3d-graphics-with-webgl2-2e-ja/master/common/images/webgl.gif';
+
       object.visible = true;
       object.alias = alias || object.alias;
       this.add(object, attributes);
