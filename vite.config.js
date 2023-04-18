@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [glsl()],
   base: '/webgl2-ts/',
   build: {
+    outDir: resolve(__dirname, 'dist'),
     rollupOptions: {
       input: {
         chapter01: resolve(root, 'chapter01', 'index.html'),
