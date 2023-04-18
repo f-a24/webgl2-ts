@@ -11,8 +11,10 @@ export default defineConfig({
   base: '/webgl2-ts/',
   build: {
     outDir: resolve(__dirname, 'dist'),
+    emptyOutDir: false,
     rollupOptions: {
       input: {
+        '': resolve(root, 'index.html'),
         chapter01: resolve(root, 'chapter01', 'index.html'),
         'chapter02/rendering_modes': resolve(
           root,
